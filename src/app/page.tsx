@@ -3,8 +3,10 @@ import IncomeExpenseInput from "@/components/incomeExpenseInput";
 export default function Home() {
   return (
     <>
-      <h1>Expense Tracker</h1>
-      <IncomeExpenseInput />
+      <div className="mt-28 flex flex-col items-center">
+        <h1>Expense Tracker</h1>
+        <IncomeExpenseInput />
+      </div>
     </>
   );
 };
