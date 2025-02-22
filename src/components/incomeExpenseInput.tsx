@@ -8,6 +8,7 @@ export default function IncomeExpenseInput() {
         type: "income",
         amount: "",
         category: "",
+        date: "",
         description: "",
         paymentMethod: "cash",
         recurring: false,
@@ -30,6 +31,7 @@ export default function IncomeExpenseInput() {
             type: "income",
             amount: "",
             category: "",
+            date: "",
             description: "",
             paymentMethod: "cash",
             recurring: false,
@@ -43,7 +45,7 @@ export default function IncomeExpenseInput() {
                     <label htmlFor="type" className="mb-2">Type</label>
                     <select name="type" id="type" className="rounded-sm hover:cursor-pointer p-1" value={formData.type} onChange={handleChange}>
                         <option value="income">Income</option>
-                        <option value="expense">Expense</option>
+                        <option value="expenses">Expenses</option>
                     </select>
                 </div>
 
@@ -89,6 +91,11 @@ export default function IncomeExpenseInput() {
                         </select>
                     </div>
                 }
+
+                <div className="mb-3 flex flex-col">
+                    <label htmlFor="date" className="mb-2">Date</label>
+                    <input type="date" name="date" id="date" className="rounded-sm hover:cursor-pointer p-1" value={formData.date} onChange={handleChange} />
+                </div>
 
                 <div className="mb-3 flex flex-col">
                     <label htmlFor="description" className="mb-2">Description</label>
