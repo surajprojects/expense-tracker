@@ -23,28 +23,36 @@ model User {
   transactions Transaction[]
 }
 
-model Category {
-  id           Int           @id @unique @default(autoincrement())
-  name         String        @unique
-  transactions Transaction[]
-}
-
 enum Type {
   income
   expenses
 }
 
+model Category {
+  id           Int           @id @unique @default(autoincrement())
+  name         String
+  type         Type          @default(income)
+  transactions Transaction[]
+}
+
+enum PaymentMethod {
+  cash
+  card
+  credit
+  upi
+}
+
 model Transaction {
-  id            Int      @id @unique @default(autoincrement())
-  type          Type     @default(income)
+  id            Int           @id @unique @default(autoincrement())
+  type          Type          @default(income)
   amount        Int
-  category      Category @relation(fields: [categoryId], references: [id])
+  category      Category      @relation(fields: [categoryId], references: [id])
   categoryId    Int
   date          String
   description   String?
-  paymentMethod String
-  recurring     Boolean  @default(false)
+  paymentMethod PaymentMethod @default(cash)
+  recurring     Boolean       @default(false)
   createdOn     String
-  author        User     @relation(fields: [authorId], references: [id])
+  author        User          @relation(fields: [authorId], references: [id])
   authorId      Int
 }

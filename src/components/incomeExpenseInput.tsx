@@ -5,12 +5,12 @@ import { useState } from "react";
 export default function IncomeExpenseInput() {
 
     const [formData, setFormData] = useState({
-        type: "income",
+        type: "",
         amount: "",
         category: "",
         date: "",
         description: "",
-        paymentMethod: "cash",
+        paymentMethod: "",
         recurring: false,
     });
 
@@ -25,17 +25,34 @@ export default function IncomeExpenseInput() {
         });
     };
 
-    const handleSubmit = () => {
-        console.log(formData);
-        setFormData({
-            type: "income",
-            amount: "",
-            category: "",
-            date: "",
-            description: "",
-            paymentMethod: "cash",
-            recurring: false,
-        })
+    const handleSubmit = async () => {
+        try {
+            console.log(formData)
+            const BASE_URL = "http://localhost:3000/";
+            const response = await fetch(`${BASE_URL}api/createtransaction`, {
+                method: "POST",
+                body: JSON.stringify(formData),
+            });
+            const res = await response.json();
+            if (response.status === 201) {
+                setFormData({
+                    type: "",
+                    amount: "",
+                    category: "",
+                    date: "",
+                    description: "",
+                    paymentMethod: "",
+                    recurring: false,
+                })
+            }
+            else if (response.status === 500) {
+                console.warn(res.message);
+            }
+        }
+        catch (error) {
+            console.log(error);
+            console.warn("Unable to submit the data!!!");
+        }
     };
 
     return (
@@ -44,6 +61,7 @@ export default function IncomeExpenseInput() {
                 <div className="mb-3 flex flex-col">
                     <label htmlFor="type" className="mb-2">Type</label>
                     <select name="type" id="type" className="rounded-sm hover:cursor-pointer p-1" value={formData.type} onChange={handleChange}>
+                        <option value="" disabled>Select type</option>
                         <option value="income">Income</option>
                         <option value="expenses">Expenses</option>
                     </select>
@@ -58,6 +76,7 @@ export default function IncomeExpenseInput() {
                     <div className="mb-3 flex flex-col">
                         <label htmlFor="category" className="mb-2">Category</label>
                         <select name="category" id="category" value={formData.category} onChange={handleChange} className="rounded-sm hover:cursor-pointer p-1">
+                            <option value="" disabled>Select a category</option>
                             <option value="salary">Salary</option>
                             <option value="freelance">Freelance</option>
                             <option value="investment">Investment</option>
@@ -75,6 +94,7 @@ export default function IncomeExpenseInput() {
                     <div className="mb-3 flex flex-col">
                         <label htmlFor="category" className="mb-2">Category</label>
                         <select name="category" id="category" value={formData.category} onChange={handleChange} className="rounded-sm hover:cursor-pointer p-1">
+                            <option value="" disabled>Select category</option>
                             <option value="food">Food</option>
                             <option value="rent">Rent</option>
                             <option value="shopping">Shopping</option>
@@ -105,6 +125,7 @@ export default function IncomeExpenseInput() {
                 <div className="mb-3 flex flex-col">
                     <label htmlFor="paymentMethod" className="mb-2">Payment Method</label>
                     <select name="paymentMethod" id="paymentMethod" value={formData.paymentMethod} onChange={handleChange} className="rounded-sm hover:cursor-pointer p-1">
+                        <option value="" disabled>Select method</option>
                         <option value="cash">Cash</option>
                         <option value="card">Card</option>
                         <option value="upi">UPI</option>
