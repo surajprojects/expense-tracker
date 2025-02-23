@@ -1,3 +1,5 @@
+import Analytics from "./analytics";
+
 async function getTransactions() {
     const BASE_URL = "http://localhost:3000/";
     const result = await fetch(`${BASE_URL}api/alltransactions`);
@@ -25,7 +27,7 @@ export default async function ShowTransactions() {
     const data: transactionDataType[] = await getTransactions();
     return (
         <>
-            <div className="flex flex-col items-center">
+            <div className="mt-20 flex flex-col items-center">
                 <p className="text-2xl">All Transactions</p>
                 <table className="mt-5">
                     <thead>
@@ -74,6 +76,7 @@ export default async function ShowTransactions() {
                         })}
                     </tbody>
                 </table>
+                <Analytics data={data} />
             </div>
         </>
     );
