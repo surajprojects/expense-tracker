@@ -58,9 +58,12 @@ function currentDate() {
     };
 };
 
-function getMonth(num = 1) {
+function getMonth(num: number) {
     let month = "";
     switch (num) {
+        case 1:
+            month = "January";
+            break;
         case 2:
             month = "February";
             break;
@@ -95,11 +98,44 @@ function getMonth(num = 1) {
             month = "December";
             break;
         default:
-            month = "January";
+            month = "Out of range!!!";
             break;
     };
 
-    return { month: `${month.slice(0, 3)}`, fullMonth: month };
+    if (month !== "Out of range!!!") {
+        return { month: `${month.slice(0, 3)}`, fullMonth: month };
+    }
+    else {
+        return null;
+    }
 };
 
-export { currentTime, currentDate, getMonth };
+function detoxDate(inputDate: string) {
+    if (
+        inputDate.indexOf("+") === -1 &&
+        inputDate.indexOf("-") === -1 &&
+        inputDate.indexOf(".") === -1 &&
+        inputDate.indexOf(" ") === -1 &&
+        inputDate.indexOf("e") === -1 &&
+        Number(inputDate)
+    ) {
+        return true;
+    }
+    else {
+        return false;
+    }
+};
+
+function formatDate(yyyymmdd: string) {
+    if ((yyyymmdd.length === 10) && (detoxDate(yyyymmdd.slice(8)) && detoxDate(yyyymmdd.slice(5, 7)) && detoxDate(yyyymmdd.slice(0, 4))) && (Number(yyyymmdd.slice(8)) > 0 && Number(yyyymmdd.slice(8)) < 32) && (Number(yyyymmdd.slice(0, 4)) > 1900)) {
+        const mm = getMonth(Number(yyyymmdd.slice(5, 7)));
+        if (mm) {
+            return `${yyyymmdd.slice(8)}-${mm.month}-${yyyymmdd.slice(0, 4)}`;
+        }
+    }
+    else {
+        return null;
+    }
+};
+
+export { currentTime, currentDate, getMonth, formatDate };

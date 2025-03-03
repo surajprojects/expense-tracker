@@ -6,8 +6,8 @@ export async function DELETE(req: Request) {
 
         const transaction = await prisma.transaction.delete({
             where: {
-                id: data.id,
-                authorId: data.authorId
+                id: Number(data.id),
+                authorId: Number(data.authorId),
             }
         });
 

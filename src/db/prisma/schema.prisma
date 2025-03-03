@@ -53,6 +53,7 @@ model Transaction {
   paymentMethod PaymentMethod @default(cash)
   recurring     Boolean       @default(false)
   createdOn     String
+  editedOn      String
   author        User          @relation(fields: [authorId], references: [id])
   authorId      Int
 }

@@ -1,11 +1,22 @@
 import prisma from "@/db";
-import { currentDate, getMonth } from "@/utils/dateAndTime";
+import { currentDate, formatDate } from "@/utils/dateAndTime";
 
 export async function POST(req: Request) {
     try {
         const data = await req.json();
         const setCreatedOn = `${currentDate().date}-${currentDate().month}-${currentDate().year}`;
-        const setDate = `${data.date.slice(8)}-${getMonth(Number(data.date.slice(5, 7))).month}-${data.date.slice(0, 4)}`;
+        let setDate = "";
+
+        if (data.date) {
+            const inputDate = formatDate(data.date);
+            if (inputDate) {
+                setDate = inputDate;
+            }
+            else {
+                return Response.json({ message: "Invalid format!!!", required: "yyyy-mm-dd" }, { status: 422 });
+            }
+        }
+
         const categoryData = await prisma.category.findMany({
             where: {
                 AND: [
@@ -16,7 +27,7 @@ export async function POST(req: Request) {
         });
 
         if (!(categoryData.length > 0)) {
-            return Response.json({ message: "Unable to find the category id!!!" }, { status: 404 })
+            return Response.json({ message: "Category id not found!!!" }, { status: 404 })
         }
 
         const newTransaction = await prisma.transaction.create({
@@ -29,6 +40,7 @@ export async function POST(req: Request) {
                 paymentMethod: data.paymentMethod,
                 recurring: data.recurring,
                 createdOn: setCreatedOn,
+                editedOn: "",
                 authorId: 1,
             }
         });
