@@ -58,6 +58,60 @@ function currentDate() {
     };
 };
 
+function getMonthNumber(month: string) {
+    const mm = month.slice(0, 3).toLowerCase();
+    let monthCode = 0;
+    let message = "";
+    switch (mm) {
+        case "jan":
+            monthCode = 1;
+            break;
+        case "feb":
+            monthCode = 2;
+            break;
+        case "mar":
+            monthCode = 3;
+            break;
+        case "apr":
+            monthCode = 4;
+            break;
+        case "may":
+            monthCode = 5;
+            break;
+        case "jun":
+            monthCode = 6;
+            break;
+        case "jul":
+            monthCode = 7;
+            break;
+        case "aug":
+            monthCode = 8;
+            break;
+        case "sep":
+            monthCode = 9;
+            break;
+        case "oct":
+            monthCode = 10;
+            break;
+        case "nov":
+            monthCode = 11;
+            break;
+        case "dec":
+            monthCode = 12;
+            break;
+        default:
+            message = "Out of range!!!";
+            break;
+    };
+
+    if (message !== "Out of range!!!") {
+        return { month, monthCode, monthCodeFormat: monthCode < 10 ? `0${monthCode}` : monthCode };
+    }
+    else {
+        return null;
+    }
+};
+
 function getMonth(num: number) {
     let month = "";
     switch (num) {
@@ -138,4 +192,4 @@ function formatDate(yyyymmdd: string) {
     }
 };
 
-export { currentTime, currentDate, getMonth, formatDate };
+export { currentTime, currentDate, getMonth, formatDate, getMonthNumber };

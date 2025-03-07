@@ -3,13 +3,12 @@ import { currentDate, formatDate } from "@/utils/dateAndTime";
 
 export async function PUT(req: Request) {
     try {
-        const updatedData: Record<string, any> = {};
+        const updatedData: any = {};
         const data = await req.json();
-
         const setEditedOn = `${currentDate().date}-${currentDate().month}-${currentDate().year}`;
         updatedData.editedOn = setEditedOn;
 
-        if (data.amount) updatedData.amount = data.amount;
+        if (data.amount) updatedData.amount = Number(data.amount);
         if (data.description) updatedData.description = data.description;
         if (data.paymentMethod) updatedData.paymentMethod = data.paymentMethod;
         if (data.recurring) updatedData.recurring = data.recurring;

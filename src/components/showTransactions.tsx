@@ -2,7 +2,7 @@ import TransactionEntry from "./transactionEntry";
 
 async function getTransactions() {
     const BASE_URL = "http://localhost:3000/";
-    const result = await fetch(`${BASE_URL}api/alltransactions`);
+    const result = await fetch(`${BASE_URL}api/transactions`);
     const res = await result.json();
     return res.transactions;
 };
@@ -27,8 +27,9 @@ export default async function ShowTransactions() {
     const data: transactionDataType[] = await getTransactions();
     return (
         <>
-            <div className="mt-20 flex flex-col items-center">
-                <p className="text-2xl">All Transactions</p>
+
+            <div className="mt-5 flex flex-col items-center">
+                <p className="text-xl underline">All Transactions</p>
                 <table className="mt-5">
                     <thead>
                         <tr className="border-b-4 border-t-4 border-slate-600 bg-[#80ed99]">

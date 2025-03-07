@@ -1,11 +1,10 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 
-export default function IncomeExpenseInput() {
+export default function EditTransaction({ id, handleEdit }: { id: number, handleEdit: any }) {
     const router = useRouter();
-
     const [formData, setFormData] = useState({
         type: "",
         amount: "",
@@ -29,14 +28,20 @@ export default function IncomeExpenseInput() {
 
     const handleSubmit = async () => {
         try {
-            console.log(formData)
+            console.log({
+                id,
+                ...formData
+            })
             const BASE_URL = "http://localhost:3000/";
-            const response = await fetch(`${BASE_URL}api/createtransaction`, {
-                method: "POST",
-                body: JSON.stringify(formData),
+            const response = await fetch(`${BASE_URL}api/updatetransaction`, {
+                method: "PUT",
+                body: JSON.stringify({
+                    id,
+                    ...formData,
+                }),
             });
-            const res = await response.json();
-            if (response.status === 201) {
+            const result = await response.json();
+            if (response.ok) {
                 setFormData({
                     type: "",
                     amount: "",
@@ -46,10 +51,11 @@ export default function IncomeExpenseInput() {
                     paymentMethod: "",
                     recurring: false,
                 });
+                handleEdit(false);
                 router.push('/dashboard/alltransactions');
             }
             else if (response.status === 500) {
-                console.warn(res.message);
+                console.warn(result.message);
             }
         }
         catch (error) {
@@ -57,6 +63,35 @@ export default function IncomeExpenseInput() {
             console.warn("Unable to submit the data!!!");
         }
     };
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const BASE_URL = "http://localhost:3000/";
+                const response = await fetch(`${BASE_URL}api/transactions/${id}`);
+                const result = await response.json();
+                if (response.ok) {
+                    setFormData({
+                        type: result.transactions[0].type,
+                        amount: result.transactions[0].amount,
+                        category: result.transactions[0].category.name,
+                        date: result.formatDate,
+                        description: result.transactions[0].description,
+                        paymentMethod: result.transactions[0].paymentMethod,
+                        recurring: result.transactions[0].recurring,
+                    })
+                }
+                else if (response.status === 500) {
+                    console.warn(result.message);
+                }
+            }
+            catch (error) {
+                console.log(error);
+                console.warn("Unable to submit the data!!!");
+            }
+        };
+        getData();
+    }, []);
 
     return (
         <>
@@ -140,7 +175,7 @@ export default function IncomeExpenseInput() {
                     <label htmlFor="recurring" className="mr-2">Recurring</label>
                     <input type="checkbox" name="recurring" id="recurring" checked={formData.recurring} onChange={handleChange} className="rounded-sm w-4 h-4 translate-y-1 hover:cursor-pointer p-1" />
                 </div>
-                <button type="button" onClick={handleSubmit} className="w-full bg-green-500 text-white rounded py-1 border hover:border-black shadow hover:cursor-pointer">Add</button>
+                <button type="button" onClick={handleSubmit} className="w-full bg-green-500 text-white rounded py-1 border hover:border-black shadow hover:cursor-pointer">Confirm</button>
             </div>
         </>
     );

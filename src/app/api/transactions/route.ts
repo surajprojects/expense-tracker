@@ -3,8 +3,14 @@ import prisma from "@/db";
 export async function GET() {
     try {
         const transactions = await prisma.transaction.findMany({
+            where: {
+                authorId: 1
+            },
             include: {
                 category: true
+            },
+            orderBy: {
+                id: "desc"
             }
         });
 
