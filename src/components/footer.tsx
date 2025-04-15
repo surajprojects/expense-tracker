@@ -4,7 +4,7 @@ import expenseTrackerLogo from "@/assets/expense-tracker-logo.png";
 export default function Footer() {
     return (
         <>
-            <footer>
+            <footer className="mb-8 mx-16">
                 {/* Parent of Container 1 & 2 */}
                 <div className="flex justify-between">
                     {/* Container 1 */}
@@ -15,6 +15,7 @@ export default function Footer() {
                                 alt="Expense Tracker Logo"
                                 width={40}
                                 priority={true}
+                                className="mix-blend-multiply"
                             />
                             <p className="text-2xl font-medium">Expense Tracker</p>
                         </div>
@@ -22,7 +23,7 @@ export default function Footer() {
                             <span>Welcome to Expense Tracker, where financial</span>
                             <span>management meets simplicity and efficiency.</span>
                         </p>
-                        {/* Social media logos */}
+                        {/* Social media icons */}
                         <div className="mt-4">
                             <span className="pr-2">Facebook</span>
                             <span className="px-2">Instagram</span>
@@ -32,6 +33,7 @@ export default function Footer() {
                     </div>
                     {/* Container 2 */}
                     <div className="grow flex justify-between">
+                        {/* Column 1 */}
                         <ul className="flex flex-col">
                             <li className="font-medium mb-3">Company</li>
                             <li className="text-gray-500 text-sm my-2">Home</li>
@@ -39,6 +41,7 @@ export default function Footer() {
                             <li className="text-gray-500 text-sm my-2">Affiliate Program</li>
                             <li className="text-gray-500 text-sm my-2">Careers</li>
                         </ul>
+                        {/* Column 2 */}
                         <ul className="flex flex-col">
                             <li className="font-medium mb-3">Product</li>
                             <li className="text-gray-500 text-sm my-2">Overview</li>
@@ -46,6 +49,7 @@ export default function Footer() {
                             <li className="text-gray-500 text-sm my-2">Integrations</li>
                             <li className="text-gray-500 text-sm my-2">Pricing</li>
                         </ul>
+                        {/* Column 3 */}
                         <ul className="flex flex-col">
                             <li className="font-medium mb-3">Resources</li>
                             <li className="text-gray-500 text-sm my-2">Blog</li>
@@ -53,6 +57,7 @@ export default function Footer() {
                             <li className="text-gray-500 text-sm my-2">Webinars</li>
                             <li className="text-gray-500 text-sm my-2">Press</li>
                         </ul>
+                        {/* Column 4 */}
                         <ul className="flex flex-col">
                             <li className="font-medium mb-3">Support</li>
                             <li className="text-gray-500 text-sm my-2">Request a Demo</li>
